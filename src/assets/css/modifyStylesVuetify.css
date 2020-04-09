@@ -1,0 +1,13 @@
+.v-btn {
+    text-transform: capitalize !important;
+}
+
+.apexcharts-legend.position-bottom .apexcharts-legend-series, .apexcharts-legend.position-top .apexcharts-legend-series {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.modify-h > div:first-child {
+    min-height: 380px !important;
+}
