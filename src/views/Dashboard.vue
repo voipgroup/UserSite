@@ -1,14 +1,15 @@
 <template>
   <v-container>
+    <h2 class="display-1" style="color:#707070;">Inicio</h2>
     <v-row class="text-center">
       <v-col cols="3">
         <v-card class="pa-3">
-          <div style="color:#707070; font-size:16px; font-weight: 500;">Estado</div>
+          <div style="color:#707070; font-size:16px; font-weight: 500;">Mi linea</div>
           <div class="d-flex align-center justify-center">
             <h1 class="primary--text mt-3 mb-3">Activa</h1>
             <v-icon class="primary--text">import_export</v-icon>
           </div>
-          <div style="color:#BEBEBE;">Mi linea</div>
+          <div style="color:#BEBEBE;">Estado</div>
         </v-card>
       </v-col>
       <v-col cols="3">
