@@ -1,53 +1,79 @@
 <template>
-  <v-container>
-    <h2 class="display-1" style="color:#707070;">Mis números</h2>
-    <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
-      <template v-slot:top>
-        <v-dialog v-model="dialog" max-width="500px">
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+  <div>
+    <div style="background:#F5F5F5;">
+      <v-container class="d-flex align-center">
+        <v-row>
+          <v-col cols="12" sm="6" md="4">
+            <TitleSubAppBar title="Mis números"></TitleSubAppBar>            
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field hide-details dense outlined label="Buscar" prepend-inner-icon="search"></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+    <v-container>
+      <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+        <template v-slot:item.calories="{ item }">
+          <v-chip
+            label
+            outlined
+            small
+            x-small
+            :color="getColor(item.calories)"
+            dark
+          >{{ item.calories }}</v-chip>
+        </template>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-        <v-icon small @click="deleteItem(item)">delete</v-icon>
-      </template>
-      <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
-    </v-data-table>
-  </v-container>
+        <template v-slot:top>
+          <v-dialog v-model="dialog" max-width="500px">
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{ formTitle }}</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+          <!-- <v-icon small @click="deleteItem(item)">delete</v-icon> -->
+        </template>
+        <template v-slot:no-data>
+          <v-btn color="primary" @click="initialize">Reset</v-btn>
+        </template>
+      </v-data-table>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -204,6 +230,12 @@ export default {
         this.desserts.push(this.editedItem);
       }
       this.close();
+    },
+
+    getColor(calories) {
+      if (calories > 400) return "primary";
+      else if (calories > 200) return "accent";
+      else return "info";
     }
   }
 };

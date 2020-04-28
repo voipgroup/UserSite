@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// import Login from './views/Login';
 import Dashboard from './views/Dashboard';
 import Numbers from './views/Numbers';
 import Calls from './views/Calls';
@@ -9,12 +10,27 @@ Vue.use(VueRouter)
 
 export const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes: [
+    // {
+    //   path: '*',
+    //   redirect: '/login',
+    // },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: Login
+    // },
+    // {
+    //   path: '/',
+    //   redirect: '/login',
+    // },
     {
       path: '/',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      // meta: {
+      //   authentication: true
+      // }
     },
     {
       path: '/numbers',

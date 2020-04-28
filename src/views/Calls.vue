@@ -1,19 +1,78 @@
 <template>
-  <v-container>
-    <h2 class="display-1" style="color:#707070;">Mis llamadas</h2>
-
-    <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-      <template v-slot:item.calories="{ item }">
-        <v-chip :color="getColor(item.calories)" dark>{{ item.calories }}</v-chip>
-      </template>
-    </v-data-table>
-  </v-container>
+  <div>
+    <div class="grayOne">
+      <v-container>
+        <v-row>
+          <v-col cols="12" sm="6" md="3">
+            <TitleSubAppBar title="Mis llamadas"></TitleSubAppBar>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" sm="6" md="3">
+            <v-select hide-details dense outlined :items="items" label="Usuario"></v-select>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-menu
+              v-model="menuDate"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="dateRangeText"
+                  label="Rango de fecha"
+                  prepend-inner-icon="event"
+                  readonly
+                  v-on="on"
+                  hide-details
+                  dense
+                  outlined
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="dates" @input="successDate" range></v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col class="d-flex align-center justify-space-between" cols="12" sm="6" md="3">
+            <v-btn depressed class="mr-2" color="primary">Aplicar</v-btn>
+            <v-btn outlined class="mr-2" color="primary">Remover</v-btn>
+            <v-btn icon color="grayTwoDark">
+              <v-icon>save_alt</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row class="d-flex justify-end align-center">
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field hide-details dense outlined label="Buscar" prepend-inner-icon="search"></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+    <v-container>
+      <v-data-table :headers="headers" :items="desserts" class="elevation-1">
+        <template v-slot:item.calories="{ item }">
+          <v-chip
+            label
+            outlined
+            small
+            x-small
+            :color="getColor(item.calories)"
+            dark
+          >{{ item.calories }}</v-chip>
+        </template>
+      </v-data-table>
+    </v-container>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      items: ["Todos los usuarios", "Bar", "Fizz", "Buzz"],
+      menuDate: false,
+      dates: [],
       headers: [
         {
           text: "Dessert (100g serving)",
@@ -111,11 +170,19 @@ export default {
       ]
     };
   },
+  computed: {
+    dateRangeText() {
+      return this.dates.join(" ~ ");
+    }
+  },
   methods: {
     getColor(calories) {
       if (calories > 400) return "red";
       else if (calories > 200) return "orange";
       else return "green";
+    },
+    successDate() {
+      if (this.dates.length === 2) this.menuDate = false;
     }
   }
 };
