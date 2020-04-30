@@ -37,29 +37,47 @@
           <v-col class="d-flex align-center justify-space-between" cols="12" sm="6" md="3">
             <v-btn depressed class="mr-2" color="primary">Aplicar</v-btn>
             <v-btn outlined class="mr-2" color="primary">Remover</v-btn>
-            <v-btn icon color="grayTwoDark">
-              <v-icon>save_alt</v-icon>
-            </v-btn>
+
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn icon color="grayTwoDark" v-on="on">
+                  <v-icon>save_alt</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item v-for="(item, index) in downloadItems" :key="index" @click="console.log('download')">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
         </v-row>
         <v-row class="d-flex justify-end align-center">
           <v-col cols="12" sm="6" md="3">
-            <v-text-field hide-details dense outlined label="Buscar" prepend-inner-icon="search"></v-text-field>
+            <v-text-field
+              v-model="search"
+              @input="searchItems"
+              hide-details
+              dense
+              outlined
+              label="Buscar"
+              prepend-inner-icon="search"
+            ></v-text-field>
           </v-col>
         </v-row>
       </v-container>
     </div>
     <v-container>
-      <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-        <template v-slot:item.calories="{ item }">
+      <v-data-table :headers="headers" :items="myCalls" class="elevation-1">
+        <template v-slot:item.numeroDestino="{ item }">
           <v-chip
             label
             outlined
             small
             x-small
-            :color="getColor(item.calories)"
+            :color="getColor(item.numeroDestino)"
             dark
-          >{{ item.calories }}</v-chip>
+          >{{ item.numeroDestino }}</v-chip>
         </template>
       </v-data-table>
     </v-container>
@@ -70,102 +88,169 @@
 export default {
   data() {
     return {
+      search: "",
+      downloadItems: [
+        { title: 'COPY' },
+        { title: 'CSV' },
+        { title: 'PDF' },
+      ],
       items: ["Todos los usuarios", "Bar", "Fizz", "Buzz"],
       menuDate: false,
       dates: [],
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "Fecha",
           align: "start",
           sortable: false,
-          value: "name"
+          value: "fecha"
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
+        { text: "Número de destino", value: "numeroDestino" },
+        { text: "Descripción de destino", value: "descripcionDestino" },
+        { text: "Duración", value: "duracion" },
+        { text: "Costo", value: "costo" }
       ],
-      desserts: [
+      myCalls: [
         {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 6.0,
+          duracion: 24,
+          costo: 4.0
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 9.0,
+          duracion: 37,
+          costo: 4.3
         },
         {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 16.0,
+          duracion: 23,
+          costo: 6.0
         },
         {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 3.7,
+          duracion: 67,
+          costo: 4.3
         },
         {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 16.0,
+          duracion: 49,
+          costo: 3.9
         },
         {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 0.0,
+          duracion: 94,
+          costo: 0.0
         },
         {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 0.2,
+          duracion: 98,
+          costo: 0
         },
         {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 3.2,
+          duracion: 87,
+          costo: 6.5
         },
         {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 25.0,
+          duracion: 51,
+          costo: 4.9
         },
         {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%"
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 26.0,
+          duracion: 65,
+          costo: 7
+        }
+      ],
+      myCallsCopy: [
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 6.0,
+          duracion: 24,
+          costo: 4.0
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 9.0,
+          duracion: 37,
+          costo: 4.3
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 16.0,
+          duracion: 23,
+          costo: 6.0
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 3.7,
+          duracion: 67,
+          costo: 4.3
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 16.0,
+          duracion: 49,
+          costo: 3.9
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 0.0,
+          duracion: 94,
+          costo: 0.0
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 0.2,
+          duracion: 98,
+          costo: 0
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 3.2,
+          duracion: 87,
+          costo: 6.5
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 25.0,
+          duracion: 51,
+          costo: 4.9
+        },
+        {
+          fecha: "10/03/2020",
+          numeroDestino: 153567845,
+          descripcionDestino: 26.0,
+          duracion: 65,
+          costo: 7
         }
       ]
     };
@@ -176,9 +261,23 @@ export default {
     }
   },
   methods: {
-    getColor(calories) {
-      if (calories > 400) return "red";
-      else if (calories > 200) return "orange";
+    searchItems(value) {
+      const list = this.myCallsCopy.filter(item => {
+        if (
+          item.fecha.toUpperCase().includes(value.toUpperCase()) ||
+          `${item.numeroDestino}`.includes(value) ||
+          `${item.descripcionDestino}`.includes(value) ||
+          `${item.duracion}`.includes(value) ||
+          `${item.costo}`.includes(value)
+        )
+          return true;
+        return false;
+      });
+      this.myCalls = list;
+    },
+    getColor(numeroDestino) {
+      if (numeroDestino > 400) return "primary";
+      else if (numeroDestino > 200) return "orange";
       else return "green";
     },
     successDate() {

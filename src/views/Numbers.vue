@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div style="background:#F5F5F5;">
+    <div class="grayOne">
       <v-container class="d-flex align-center">
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <TitleSubAppBar title="Mis números"></TitleSubAppBar>            
+            <TitleSubAppBar title="Mis números"></TitleSubAppBar>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field hide-details dense outlined label="Buscar" prepend-inner-icon="search"></v-text-field>
+            <v-text-field v-model="search" @input="searchItems" hide-details dense outlined label="Buscar" prepend-inner-icon="search"></v-text-field>
           </v-col>
         </v-row>
       </v-container>
     </div>
 
     <v-container>
-      <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
-        <template v-slot:item.calories="{ item }">
+      <v-data-table :headers="headers" :items="myNumbers" sort-by="numbers" class="elevation-1">
+        <template v-slot:item.numbers="{ item }">
           <v-chip
             label
             outlined
             small
             x-small
-            :color="getColor(item.calories)"
+            :color="getColor(item.company)"
             dark
-          >{{ item.calories }}</v-chip>
+          >{{ item.numbers }}</v-chip>
         </template>
 
         <template v-slot:top>
@@ -38,19 +38,13 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                      <v-text-field dense outlined v-model="editedItem.name" label="Name"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                      <v-text-field dense outlined v-model="editedItem.numbers" label="Numbers"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                      <v-text-field dense outlined v-model="editedItem.company" label="Company"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -80,32 +74,32 @@
 export default {
   data: () => ({
     dialog: false,
+    search: "",
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Nombre",
         align: "start",
         sortable: false,
         value: "name"
       },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
+      { text: "Numbers", value: "numbers" },
+      { text: "Company", value: "company" },
+      { text: "Minutes min.", value: "minutes" },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    desserts: [],
+    myNumbers: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      calories: 0,
-      fat: 0,
+      numbers: 0,
+      minutes: 0,
       carbs: 0,
       protein: 0
     },
     defaultItem: {
       name: "",
-      calories: 0,
-      fat: 0,
+      numbers: 0,
+      minutes: 0,
       carbs: 0,
       protein: 0
     }
@@ -129,90 +123,150 @@ export default {
 
   methods: {
     initialize() {
-      this.desserts = [
+      this.myNumbers = [
         {
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
+          numbers: 351240095,
+          minutes: 69,
+          company: "personal"
         },
         {
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
+          numbers: 351240095,
+          minutes: 99,
+          company: "claro"
         },
         {
           name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
+          numbers: 351240095,
+          minutes: 169,
+          company: "personal"
         },
         {
           name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
+          numbers: 351240095,
+          minutes: 30,
+          company: "tuenti"
         },
         {
           name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
+          numbers: 351240095,
+          minutes: 16.0,
+          company: "tuenti"
         },
         {
           name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
+          numbers: 351240095,
+          minutes: 0.0,
+          company: "personal"
         },
         {
           name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
+          numbers: 351240095,
+          minutes: 0.2,
+          company: "personal"
         },
         {
           name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
+          numbers: 351240095,
+          minutes: 3.2,
+          company: "personal"
         },
         {
           name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
+          numbers: 351240095,
+          minutes: 25.0,
+          company: "claro"
         },
         {
           name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
+          numbers: 351240095,
+          minutes: 26.0,
+          company: "personal"
+        }
+      ];
+       this.myNumbersCopy = [
+        {
+          name: "Frozen Yogurt",
+          numbers: 351240095,
+          minutes: 69,
+          company: "personal"
+        },
+        {
+          name: "Ice cream sandwich",
+          numbers: 351240095,
+          minutes: 99,
+          company: "claro"
+        },
+        {
+          name: "Eclair",
+          numbers: 351240095,
+          minutes: 169,
+          company: "personal"
+        },
+        {
+          name: "Cupcake",
+          numbers: 351240095,
+          minutes: 30,
+          company: "tuenti"
+        },
+        {
+          name: "Gingerbread",
+          numbers: 351240095,
+          minutes: 16.0,
+          company: "tuenti"
+        },
+        {
+          name: "Jelly bean",
+          numbers: 351240095,
+          minutes: 0.0,
+          company: "personal"
+        },
+        {
+          name: "Lollipop",
+          numbers: 351240095,
+          minutes: 0.2,
+          company: "personal"
+        },
+        {
+          name: "Honeycomb",
+          numbers: 351240095,
+          minutes: 3.2,
+          company: "personal"
+        },
+        {
+          name: "Donut",
+          numbers: 351240095,
+          minutes: 25.0,
+          company: "claro"
+        },
+        {
+          name: "KitKat",
+          numbers: 351240095,
+          minutes: 26.0,
+          company: "personal"
         }
       ];
     },
 
+    searchItems(value) {
+      const list = this.myNumbersCopy.filter((item) => {
+         if(item.name.toUpperCase().includes(value.toUpperCase()) || `${item.numbers}`.includes(value) || `${item.minutes}`.includes(value) || item.company.toUpperCase().includes(value.toUpperCase())) return true
+         return false
+      })
+      this.myNumbers = list
+    },
+
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.myNumbers.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
+      const index = this.myNumbers.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+        this.myNumbers.splice(index, 1);
     },
 
     close() {
@@ -225,17 +279,18 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.myNumbers[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.myNumbers.push(this.editedItem);
       }
       this.close();
     },
 
-    getColor(calories) {
-      if (calories > 400) return "primary";
-      else if (calories > 200) return "accent";
-      else return "info";
+    getColor(company) {
+      if (company === "personal") return "primary";
+      else if (company === "claro") return "accent";
+      else if (company === "tuenti") return "info";
+      else return "success";
     }
   }
 };
