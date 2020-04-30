@@ -24,54 +24,19 @@
         <v-form ref="form" v-model="valid" :lazy-validation="lazy">
           <v-row align="center">
             <v-col class="col-12 col-sm-6">
-              <v-text-field
-                hide-details
-                dense
-                outlined
-                label="Descripción de usuario"
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-              ></v-text-field>
+              <v-text-field disabled hide-details dense outlined label="Descripción de usuario"></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-6">
-              <v-text-field
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-                hide-details
-                dense
-                outlined
-                label="Código de usuario"
-              ></v-text-field>
+              <v-text-field disabled hide-details dense outlined label="Código de usuario"></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-6">
-              <v-text-field
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-                hide-details
-                dense
-                outlined
-                label="Cuenta"
-              ></v-text-field>
+              <v-text-field disabled hide-details dense outlined label="Cuenta"></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-6">
-              <v-text-field
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-                hide-details
-                dense
-                outlined
-                label="Deuda"
-              ></v-text-field>
+              <v-text-field disabled hide-details dense outlined label="Deuda"></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-6">
-              <v-text-field
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-                hide-details
-                dense
-                outlined
-                label="Habilitado"
-              ></v-text-field>
+              <v-text-field disabled hide-details dense outlined label="Habilitado"></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-6">
               <v-text-field
@@ -121,34 +86,50 @@
               ></v-text-field>
             </v-col>
             <v-col class="col-12 col-sm-4">
-              <v-text-field
-                prepend-icon="info"
-                @click:prepend="infoInputs"
-                hide-details
-                dense
-                outlined
-                label="Fecha de nacimiento"
-              ></v-text-field>
+              <v-menu
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="date"
+                    label="Fecha de nacimiento"
+                    prepend-icon="event"
+                    readonly
+                    v-on="on"
+                    dense
+                    outlined
+                    hide-details
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+              </v-menu>
             </v-col>
             <v-col class="col-12 col-sm-4">
-              <v-text-field
+              <v-select
                 prepend-icon="info"
                 @click:prepend="infoInputs"
                 hide-details
-                dense
-                outlined
+                :items="itemsSexo"
                 label="Sexo"
-              ></v-text-field>
+                dense
+                outlined
+              ></v-select>
             </v-col>
             <v-col class="col-12 col-sm-4">
-              <v-text-field
+              <v-select
                 prepend-icon="info"
                 @click:prepend="infoInputs"
                 hide-details
+                :items="itemsPais"
+                label="Pais"
                 dense
                 outlined
-                label="Pais"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col class="col-12 col-sm-4">
               <v-text-field
@@ -290,19 +271,17 @@ export default {
   data: () => ({
     valid: true,
     name: "",
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
-    ],
+    itemsSexo: ["Masculino", "Femenino", "Otro", "Ninguno"],
+    itemsPais: ["Paises"],
     email: "",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: false,
-    lazy: false
+    lazy: false,
+    date: new Date().toISOString().substr(0, 10),
+    menu: false
   }),
 
   methods: {
